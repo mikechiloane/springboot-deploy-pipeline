@@ -1,0 +1,19 @@
+
+name: Trigger deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger pipeline
+        run: |
+          curl -X POST https://api.github.com/repos/mikechiloane/recceda-startup/springbboot-deploy-pipeline/dispatches \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.ACTIONS_REPO_PAT }}" \
+          -d '{"event_type":"deploy-springboot"}'
+
